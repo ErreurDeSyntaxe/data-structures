@@ -109,3 +109,69 @@ const section2 = function () {
     }
   };
 };
+// section2();
+
+/**
+ * Take notes about Array & Object performance
+ */
+const section3 = function () {
+  const ObjectBigO = function () {
+    // Nice & Bad thing about {}, they are unordered
+    let instructor = {
+      firstName: 'Kelly',
+      isInstructor: true,
+      favoriteNumbers: [1, 2, 3, 4],
+    };
+    // accessing key O(1)
+    // removing key O(1)
+    // inserting key O(1)
+    // searching value O(n)
+    // searching requires checking potentially all the keys and values
+
+    const keys = Object.keys(instructor); // O(n)
+    const values = Object.values(instructor); // O(n)
+    const entries = Object.entries(instructor); // O(n)
+    console.log(keys);
+    console.log(values);
+    console.log(entries);
+    // each entry needs checking, so proportional, aka O(n)
+
+    const check = Object.hasOwn(instructor, 'fullName'); // O(1)
+    console.log(check);
+  };
+  // ObjectBigO();
+
+  const arrayBigO = function () {
+    // Nice & Bad thing about [], they are ordered
+    let names = ['Michael', 'Melissa', 'Andrea'];
+    let values = [true, {}, 2, 'awesome'];
+    // accessing O(1)
+    // removing DEPENDS
+    // inserting DEPENDS
+    // searching value O(n)
+
+    names.push('Raj'); // O(1) super simple
+    names.pop(); // O(1)
+    names.unshift('Xavier'); // O(n) all items must be rearranged
+    names.shift(); // O(n) all items must be rearranged (reindexed)
+  };
+  // arrayBigO();
+
+  const arrayMethods = function () {
+    const numbers = ['one', 'two', 'three', 'four'];
+    const names = ['Jim', 'Joe', 'Jill'];
+    const together = numbers.concat(numbers, names);
+    console.log(together); // merges two array, goes thru all elements O(n)
+    const lady = names.slice(2);
+    console.log(names); // slice does NOT modify the original array
+    console.log(lady); // copies all designated elements O(n)
+    const numberTwo = numbers.splice(1, 1);
+    console.log(numbers); // splice modifies the original array
+    console.log(numberTwo); // copies all designated elements O(n)
+    // forEach, map, filter, reduce O(n)
+    const sorted = numbers.sort(); // O(n*log n)
+    console.log(sorted);
+  };
+  arrayMethods();
+};
+// section3();
