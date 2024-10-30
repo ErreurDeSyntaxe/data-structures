@@ -177,7 +177,7 @@ const section3 = function () {
 // section3();
 
 /**
- * Take notes about problem solving
+ * Take notes about problem solving approach
  */
 const section4 = function () {
   const algorithm = function () {
