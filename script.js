@@ -175,3 +175,141 @@ const section3 = function () {
   arrayMethods();
 };
 // section3();
+
+/**
+ * Take notes about problem solving
+ */
+const section4 = function () {
+  const algorithm = function () {
+    console.log('an algorithm is a set of steps to accomplish a task');
+    console.log('To solve a problem, there are steps (an algorithm)');
+    console.log('1. understanding the problem');
+    console.log('2. exploring concrete examples');
+    console.log('3. breaking the problem down in smaller/easier chunks');
+    console.log('4. solving each piece');
+    console.log('5. refactoring the code');
+  };
+  // algorithm();
+
+  const understanding = function () {
+    console.log('To understand the problem, follow this algorithm:');
+    console.log('1. Restate the problem in your own words');
+    console.log('2. Study the inputs of the problem');
+    console.log('3. Study the outputs');
+    console.log('4. Make sure you have enough info to solve the problem');
+    console.log('5. Label the crucial parts of the problem');
+
+    console.log('Ex: A function that takes 2 numbers and returns the sum');
+    console.log('1. Add two numbers and give the answer');
+    console.log('2. The inputs are two numbers (floats, how big, decimal?)');
+    console.log('3. Int? Float? String?');
+    console.log('4. What if the input is incomplete?');
+    console.log('5. Name the variables & functions');
+  };
+  // understanding();
+
+  const exploreExamples = function () {
+    console.log('Concrete examples help visualize/understand problems');
+    console.log('They can be substituted by user stories');
+    console.log('1. Start with simple examples');
+    console.log('2. Move to more complex examples');
+    console.log('3. Move to empty inputs');
+    console.log('4. Move to invalid inputs');
+
+    console.log('A function that takes a str & tracks character count');
+    console.log('1. "aaa"');
+    console.log('2. "apple"');
+    console.log('3. "aPple"');
+    console.log('4. ""');
+    console.log('5. 嗨');
+  };
+  // exploreExamples();
+
+  const divideConquer = function () {
+    console.log('Ex: A function that takes a str & tracks character count');
+    console.log('Divide the problems into easy chunks');
+    console.log('Write steps in comments');
+    function charCount(str) {
+      // tack numbers and letters (all lowercase), no punctuation or spaces
+      // make object to return at end
+      const counts = {};
+      // loop over string
+      for (let i = 0; i < str.length; i++) {
+        const char = str[i];
+        // if the char is a key in {}, add 1, else, add to object
+        if (counts[char]) counts[char]++;
+        else counts[char] = 1;
+        // to do:
+        // ignore spaces, bring UPPER to lowercase, ignore special chars
+      }
+      // return object
+      return counts;
+    }
+    const result = charCount('Hello hi !1!');
+    console.log(result); //{"1": 1,"H": 1,"e": 1,"l": 2,"o": 1," ": 2,"h": 1,"i": 1,"!": 2}
+  };
+  // divideConquer();
+
+  const solveSimplify = function () {
+    console.log('If something is too difficult, put it on hold');
+    console.log('Solve the rest, then come back to the difficult task');
+    console.log('9'.charCodeAt(0)); // a = 97 z = 122 0 = 48 9 = 57
+    // use a regular expression
+
+    function charCount(str) {
+      const obj = {};
+      for (let i = 0; i < str.length; i++) {
+        const char = str[i].toLowerCase();
+        if (/[a-z0-9]/.test(char)) {
+          if (obj[char] > 0) obj[char]++;
+          else obj[char] = 1;
+        }
+      }
+      return obj;
+    }
+    const result = charCount('Hello hi !1!');
+    console.log(result);
+  };
+  // solveSimplify();
+
+  const refactor = function () {
+    // console.log('Look back and refactor your code');
+    // console.log('Ask yourself questions');
+    // console.log('======================');
+    // console.log('Can I check the results (code works)?');
+    // console.log('Is there another way to arrive at the same results?');
+    // console.log('It the solution easily legible?');
+    // console.log('Is this solution applicable to other problems?');
+    // console.log('Can the performance be improved?');
+    // console.log('How can the code be refactored/slimmed down?');
+    // console.log('Are the company guidelines respected?');
+    // console.log('How would others solve the same problem?');
+
+    // function charCount(str) {
+    //   const obj = {};
+    //   for (let i = 0; i < str.length; i++) {
+    //     const char = str[i].toLowerCase();
+    //     if (/[a-z0-9]/.test(char)) {
+    //       if (obj[char] > 0) obj[char]++;
+    //       else obj[char] = 1;
+    //     }
+    //   }
+    //   return obj;
+    // }
+    // const result = charCount('Hello hi !1!');
+    // console.log(result);
+
+    function charCount(str) {
+      const obj = {};
+      const lowCase = str.toLowerCase();
+      // could change regEx to .charCodeAt(0)
+      for (const char of lowCase)
+        if (/[a-z0-9]/.test(char)) obj[char] = ++obj[char] || 1;
+      return obj;
+    }
+    const result = charCount('Hello hi !1!');
+    console.log(result);
+  };
+  // refactor();
+};
+// section4();
