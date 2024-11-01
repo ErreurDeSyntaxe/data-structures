@@ -313,3 +313,255 @@ const section4 = function () {
   // refactor();
 };
 // section4();
+
+/**
+ * Take notes about problem solving patterns
+ */
+const section5 = function () {
+  // The previous section was about devising a plan to solve problems
+  // This section focuses on common solving patterns
+  const frequencyCounter = function () {
+    // function called same takes 2 arrays
+    // returns true if 2nd array contains the square of 1st array
+    // same([1, 2, 3] , [4, 1, 9]) // true
+    // same([1, 2, 3] , [1, 9]) // false
+    // same([1, 2, 1] , [4, 4, 1]) // false (must have same frequency)
+    const same = function (arr1, arr2) {
+      // compare array lengths (easiest case)
+      if (arr1.length !== arr2.length) return false;
+
+      const array2 = [...arr2];
+
+      // check if squared value is there
+      let verdict = false;
+      for (let i = 0; i < arr1.length; i++) {
+        for (let j = 0; j < arr2.length; j++) {
+          if (arr1[i] * arr1[i] === array2[j]) {
+            verdict = true;
+            array2[j] = 'used';
+            break;
+          } else {
+            verdict = false;
+          }
+        }
+      }
+      return verdict;
+
+      // todo: check for frequency match
+    };
+    // console.log(same([1, 2, 3], [1, 9]));
+    // console.log(same([1, 2, 3], [1, 9, 4]));
+    // console.log(same([1, 2, 3, 4, 5, 6], [25, 16, 1, 9, 36, 4]));
+    // console.log(same([1, 2, 1], [4, 4, 1])); // false. should be [4, 1, 1]
+    // this version is O(n^2) because of the nested loops
+
+    const better = function (arr1, arr2) {
+      if (arr1.length !== arr2.length) return false;
+
+      const obj1 = {};
+      const obj2 = {};
+
+      for (const value of arr1) {
+        obj1[value] = (obj1[value] || 0) + 1;
+      }
+      for (const value of arr2) {
+        obj2[value] = (obj2[value] || 0) + 1;
+      }
+      console.log(obj1);
+      console.log(obj2);
+      for (const key in obj1) {
+        const squared = key ** 2;
+        if (obj1[key] !== obj2[squared]) return false;
+      }
+      return true;
+      // check obj1 keys squared match with obj2 keys (check frequency)
+    };
+    // console.log(better([0, 5, 5, 4], [0, 25, 16, 25]));
+    // console.log(better([0, 5, 5, 4], [0, 25, 16, 27]));
+    // console.log(better([0, 5, 5, 4], [0, 25, 16, 16]));
+    // console.log(better([0, 5, 5, 4], [0, 2, 16, 25]));
+    // This version of the frequency counter is O(n)
+
+    const anagram = function (str1, str2) {
+      if (str1.length !== str2.length) return false;
+
+      const obj1 = {};
+      const obj2 = {};
+      for (const char of str1) obj1[char] = (obj1[char] || 0) + 1;
+      for (const char of str2) obj2[char] = (obj2[char] || 0) + 1;
+
+      for (const key in obj1) {
+        if (obj1[key] !== obj2[key]) return false;
+      }
+      return true;
+    };
+    console.log('"zaz" and "zza"', anagram('zaz', 'zza')); // true
+    console.log('"zaz" and "zzaa"', anagram('zaz', 'zzaa')); // flase
+    console.log('"iceman" and "cinema"', anagram('iceman', 'cinema')); // true
+    console.log('"" and ""', anagram('', '')); // true
+  };
+  // frequencyCounter();
+
+  const multiplePointers = function () {
+    const mySolution = function (arr) {
+      const obj = {};
+      for (const value of arr) obj[value] = 1;
+      // console.log(obj);
+      for (const key in obj) {
+        const anti = -1 * key;
+        if (obj[key] && obj[anti] && +key !== 0) return [+key, +anti];
+      }
+      return 'no match';
+    };
+    // console.log(mySolution([-3, -2, -1, 0, 1, 2, 3]));
+    // console.log(mySolution([-2, 0, 1, 3]));
+    // console.log(mySolution([1, 2, 3]));
+    // console.log(mySolution([1, 2, 3, -2]));
+    // O(n) but doesn't return the first pair. it returns the pair closest to 0
+
+    const sumZero = function (arr) {
+      let left = 0;
+      let right = arr.length - 1;
+      while (left < right) {
+        let sum = arr[left] + arr[right];
+        if (sum === 0) return [arr[left], arr[right]];
+        if (sum > 0) right--;
+        if (sum < 0) left++;
+      }
+      return 'no match';
+    };
+    // console.log(sumZero([-3, -2, -1, 0, 1, 2, 3]));
+    // console.log(sumZero([-2, 0, 1, 3]));
+    // console.log(sumZero([-8, -6, -4, -2, -1, 0, 1, 3]));
+    // O(n)
+  };
+  // multiplePointers();
+
+  const countUniqueValues = function () {
+    const myUniqueValues = function (arr) {
+      // array for unique values and variable for last unique value encountered
+      const unique = [];
+      let lastUnique;
+
+      // read each value of arr
+      for (const value of arr) {
+        if (unique.length === 0 || lastUnique !== value) {
+          // the first value in the array is unique
+          // if it is new (no match), add to uniqueValueArray
+          // see if the value matches previous values
+          unique.push(value);
+          lastUnique = value;
+        }
+      }
+      // return the length of the uniqueValueArray
+      return unique.length;
+    };
+    // console.log(myUniqueValues([1, 1, 1, 1, 1, 1, 2]));
+    // console.log(myUniqueValues([1, 2, 3, 4, 4, 4, 7, 7, 12, 12, 13]));
+    // console.log(myUniqueValues([]));
+    // console.log(myUniqueValues([-2, -1, -1, 0, 1]));
+
+    const otherUniqueValues = function (arr) {
+      if (arr.length === 0) return 0;
+      let i = 0;
+      for (let j = 1; j < arr.length; j++) {
+        if (arr[i] - arr[j] === 0) continue;
+        if (arr[i] - arr[j] !== 0) {
+          i++;
+          arr[i] = arr[j];
+        }
+      }
+      return ++i;
+    };
+    // console.log(otherUniqueValues([1, 1, 2, 3, 4]));
+    // console.log(otherUniqueValues([1, 1, 1, 1, 1, 1, 1, 1, 1, 1]));
+    // console.log(otherUniqueValues([1, 2, 3, 4, 5, 6, 7, 8]));
+    // console.log(otherUniqueValues([1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]));
+    // console.log(otherUniqueValues([]));
+  };
+  // countUniqueValues();
+
+  const slidingWindow = function () {
+    const mySubarrayMax = function (arr, count) {
+      if (arr.length < count) return null;
+      if (arr.length === count) return arr;
+
+      let highestSum = -Infinity;
+      let highestArray = [];
+
+      // loop over array
+      for (let position = 0; position < arr.length - count + 1; position++) {
+        // loop over count elements and add their sum
+        let currentSum = 0;
+        let tempArray = [];
+        for (let i = 0; i < count; i++) {
+          // store highest sum and corresponding array
+          if (typeof arr[position + i] !== 'number') break;
+          currentSum += arr[position + i];
+          tempArray.push(arr[position + i]); // presume the current loop found the correct array
+        }
+        // compare it to the highest previously obtained sum
+        if (currentSum > highestSum) {
+          highestSum = currentSum;
+          highestArray = [...tempArray];
+        }
+        if (currentSum < highestSum) {
+          tempArray = []; // review the presumption and empty the array
+        }
+      }
+      // return the array that adds up to highest sum
+      return highestArray;
+    };
+    // console.log(mySubarrayMax([1, 7, -1, 0], 4));
+    // console.log(mySubarrayMax([1], 2));
+    // console.log(mySubarrayMax([1, 7, -1, 0], 2));
+    // console.log(mySubarrayMax([1, 7, -1, 0, 10], 2));
+    // console.log(mySubarrayMax([1, 7, -1, 0, 10, 1, -8, 21, 1, -4, 87, -87], 8));
+    // O(n^2) not super good
+
+    const coltSubarrayMax = function (arr, num) {
+      let maxSum = 0;
+      let tempSum = 0;
+      if (arr.length < num) return null;
+      if (arr.length === num) return arr;
+
+      // add num numbers together (shorter loop)
+      for (let i = 0; i < num; i++) maxSum += arr[i];
+      tempSum = maxSum;
+
+      // loop over whole array (minus first)
+      for (let i = num; i < arr.length; i++) {
+        tempSum = tempSum - arr[i - num] + arr[i];
+        maxSum = Math.max(maxSum, tempSum);
+      }
+      return maxSum;
+    };
+    console.log(coltSubarrayMax([2, 6, 9, 1, 8, 3, 4, 1, 0, -1, 11, 8, 0], 3));
+    // O(n)
+  };
+  // slidingWindow();
+
+  const divideAndConquer = function () {
+    // divide and conquer will come back in later sections
+    const binarySearch = function (arr, val) {
+      let min = 0;
+      let max = arr.length - 1;
+
+      while (min <= max) {
+        let middle = Math.floor((min + max) / 2);
+        // this variable is useless for now: awaiting section 14 (I guess)
+        let currentElement = arr[middle];
+
+        if (arr[middle] < val) min = middle + 1;
+        else if (arr[middle] > val) max = middle - 1;
+        else return middle;
+      }
+
+      return -1;
+    };
+    console.log(binarySearch([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 1));
+    // O(log(n))
+  };
+  divideAndConquer();
+};
+section5();
