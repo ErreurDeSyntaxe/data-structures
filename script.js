@@ -729,3 +729,81 @@ const section6 = function () {
   // challenge7();
 };
 section6();
+
+/**
+ * Take notes about Recursion
+ */
+const section7 = function () {
+  // recursion is a function/method that calls itself
+  const calculateFactorial = function (number) {
+    // the base case is the end of the line (when recursion ends)
+    if (number > 1) return number * calculateFactorial(number - 1);
+    return 1;
+  };
+  // console.log(calculateFactorial(6));
+
+  const countdownReturn = function (number) {
+    // base case
+    if (number <= 0) {
+      return '\nLAUNCH!';
+    }
+    return `\n${number}${countdownReturn(number - 1)}`;
+  };
+  // console.log(countdownReturn(5));
+
+  const countdown = function (number) {
+    // base case
+    if (number <= 0) {
+      console.log('LAUNCH!');
+      return;
+    }
+    console.log(number + '');
+    countdown(number - 1);
+  };
+  // countdown(5);
+
+  /**
+   * Explain the concept of helper function recursion
+   */
+  const helperMethodRecursion = function () {
+    // most recursion happens in more complicated settings than the ones above
+    // so the recursion process is encapsulated in a function/method
+
+    // collectOddValues is the outer function
+    const collectOddValues = function (arr) {
+      let result = [];
+
+      // this is the recursive function
+      const helper = function (helperInput) {
+        // base case
+        if (helperInput.length === 0) return;
+        if (helperInput[0] % 2 !== 0) result.push(helperInput[0]);
+        helper(helperInput.slice(1));
+      };
+      helper(arr); // calling itself
+      return result;
+    };
+    console.log(collectOddValues([1, 2, 3, 4, 5, 6, 7, 8, 9]));
+  };
+  // helperMethodRecursion();
+
+  /**
+   * Explain the concept of pure recursion
+   */
+  const pureRecursion = function () {
+    const collectOddValues = function (arr) {
+      let newArr = [];
+      // base case
+      if (arr.length === 0) return newArr;
+      if (arr[0] % 2 !== 0) newArr.push(arr[0]);
+
+      console.log(arr[0], newArr);
+
+      newArr = newArr.concat(collectOddValues(arr.slice(1)));
+      return newArr;
+    };
+    console.log(collectOddValues([1, 2, 3, 4, 5, 6, 7, 8, 9]));
+  };
+  // pureRecursion();
+};
+section7();
