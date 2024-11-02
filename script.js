@@ -564,4 +564,168 @@ const section5 = function () {
   };
   divideAndConquer();
 };
-section5();
+// section5();
+
+/**
+ * Take on challenges
+ */
+const section6 = function () {
+  const challenge1 = function () {
+    function sameFrequency(num1, num2) {
+      // good luck. Add any arguments you deem necessary.
+      if (num1.toString().length !== num2.toString().length) return false;
+
+      const obj1 = {};
+      const obj2 = {};
+      for (const char of num1 + '') obj1[char] = (obj1[char] || 0) + 1;
+      for (const char of num2 + '') obj2[char] = (obj2[char] || 0) + 1;
+
+      for (const key in obj1) if (obj1[key] !== obj2[key]) return false;
+
+      return true;
+    }
+    console.log(sameFrequency(1234, 4311));
+    console.log(sameFrequency(1234, 4321));
+    console.log(sameFrequency('abcaa', 'aaacb'));
+  };
+  // challenge1();
+
+  const challenge2 = function () {
+    function areThereDuplicates(...arr) {
+      // good luck. (supply any arguments you deem necessary.)
+      const obj = {};
+      for (const value of arr) {
+        obj[value] = (obj[value] || 0) + 1;
+      }
+      for (const key in obj) {
+        if (obj[key] > 1) return true;
+      }
+      return false;
+    }
+    console.log(areThereDuplicates(1, 2, 3, 4));
+    console.log(areThereDuplicates(1, 2, 2, 4));
+  };
+  // challenge2();
+
+  const challenge3 = function () {
+    function averagePair(arr, average) {
+      if (arr.length === 0) return false;
+      // multiple pointers method
+
+      // a pointer at the end of the array
+      let right = arr.length - 1;
+      // loop over array with a pointer at the beginning
+      for (let left = 0; left <= right; left++) {
+        // check average of left & right
+        if ((arr[left] + arr[right]) / 2 > average) right--;
+        if ((arr[left] + arr[right]) / 2 < average) continue;
+        if ((arr[left] + arr[right]) / 2 === average) return true;
+      }
+
+      return false;
+    }
+    console.log(averagePair([1, 2, 3], 2.5));
+    console.log(averagePair([], 4));
+    console.log(averagePair([1, 5, 9], 4));
+    console.log(averagePair([1, 3, 3, 5, 6, 7, 10, 12, 19], 8));
+  };
+  // challenge3();
+
+  const challenge4 = function () {
+    function isSubsequence(str1, str2) {
+      if (str1.length > str2.length) return false;
+      if (!str1) return false;
+
+      let i = 0;
+      let j = 0;
+
+      while (j < str2.length) {
+        if (str2[j] === str1[i]) i++;
+        if (i === str1.length) return true;
+        j++;
+      }
+      return false;
+    }
+    console.log(isSubsequence('abc', 'acb'));
+    console.log(isSubsequence('abc', 'abracadaba'));
+    console.log(isSubsequence('sing', 'string'));
+  };
+  // challenge4();
+
+  const challenge5 = function () {
+    function maxSubarraySum(arr, size) {
+      if (arr.length < size) return null;
+
+      let maxSum = 0;
+      // calculate the first sum
+      for (let i = 0; i < size; i++) maxSum += arr[i];
+
+      // calculate the new num (remove first #, add new #)
+      let tempSum = maxSum;
+      for (let i = size; i < arr.length; i++) {
+        tempSum = tempSum - arr[i - size] + arr[i];
+        if (tempSum > maxSum) maxSum = tempSum;
+      }
+
+      return maxSum;
+    }
+    console.log(maxSubarraySum([1, 2, 3, 4, 5, 6, 7, 8], 2));
+    console.log(maxSubarraySum([-6, 8, 5, 1, 3, 4, 7, 2], 2));
+    console.log(maxSubarraySum([-3, 4, 0, -2, 6, -1], 2));
+  };
+  // challenge5();
+
+  const challenge6 = function () {
+    function minSubArrayLen(nums, sum) {
+      let total = 0;
+      let start = 0;
+      let end = 0;
+      let minLen = Infinity;
+
+      while (start < nums.length) {
+        // if current window doesn't add up to the given sum then
+        // move the window to right
+        if (total < sum && end < nums.length) {
+          total += nums[end];
+          end++;
+        }
+        // if current window adds up to at least the sum given then
+        // we can shrink the window
+        else if (total >= sum) {
+          minLen = Math.min(minLen, end - start);
+          total -= nums[start];
+          start++;
+        }
+        // current total less than required total but we reach the end, need this or else we'll be in an infinite loop
+        else {
+          break;
+        }
+      }
+
+      return minLen === Infinity ? 0 : minLen;
+    }
+  };
+  // challenge6();
+
+  const challenge7 = function () {
+    function findLongestSubstring(str) {
+      let longest = 0;
+      let seen = {};
+      let start = 0;
+
+      for (let i = 0; i < str.length; i++) {
+        const char = str[i];
+        if (seen[char]) start = Math.max(start, seen[char]);
+        longest = Math.max(longest, i - start + 1);
+        seen[char] = i + 1;
+      }
+
+      return longest;
+    }
+    console.log(findLongestSubstring('ab'));
+    console.log(findLongestSubstring('aa'));
+    console.log(findLongestSubstring('thisishowwedoit'));
+  };
+  // challenge7();
+};
+section6();
