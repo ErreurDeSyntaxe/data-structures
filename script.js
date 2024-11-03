@@ -885,4 +885,209 @@ const section8 = function () {
   };
   challenge5();
 };
-section8();
+// section8();
+
+/**
+ * Take on Recursion (hard) challenges
+ */
+const section9 = function () {
+  const challenge1 = function () {
+    const reverse = function (str) {
+      if (str.length === 1) return str;
+      return (
+        str.substring(str.length - 1) +
+        reverse(str.substring(0, str.length - 1))
+      );
+    };
+    console.log(reverse('rithmschool'));
+  };
+  // challenge1();
+
+  const challenge2 = function () {
+    const isPalindrome = function (str) {
+      if (str[0] !== str[str.length - 1]) return false;
+      if (str.length === 1) return true;
+
+      return isPalindrome(str.substring(1, str.length - 1));
+    };
+    console.log(isPalindrome('amanaplanacanalpanama'));
+  };
+  // challenge2();
+
+  const challenge3 = function () {
+    const callback = (val) => val % 2 !== 0;
+    const someRecursive = function (arr, callback) {
+      if (arr.length === 0) return false;
+      if (callback(arr[0])) return true;
+
+      return someRecursive(arr.slice(1), callback);
+    };
+    console.log(someRecursive([2, 4, 6, 8, 10, 1, 12], callback));
+    console.log(someRecursive([2, 4, 6, 8, 10, 0, 12], callback));
+  };
+  // challenge3();
+
+  const challenge4 = function () {
+    const flatten = function (arr) {
+      let newArr = [];
+      // if arr is a number (and not an array), leave it
+      if (typeof arr === 'number') {
+        newArr.push(arr);
+        return newArr;
+      }
+      // check each elements of the array
+      arr.forEach((element) => {
+        // if the element is a number, leave it
+        if (typeof element === 'number') {
+          newArr.push(element);
+          return element;
+        }
+        // if the element is an array, flatten it
+        newArr = newArr.concat(flatten(element));
+      });
+
+      return newArr;
+    };
+    // console.log(flatten([1]));
+    // console.log(flatten([1, [2, 3]]));
+    // console.log(flatten([1, 2, [[3]], [4, 5]]));
+    console.log(flatten([[[[1], [[[2]]], [[[[[[[3]]]]]]]]]]));
+  };
+  // challenge4();
+
+  const challenge5 = function () {
+    const capitalizeFirst = function (arr) {
+      if (arr.length === 0) return [];
+
+      let newArr = [];
+      newArr.push(arr[0][0].toUpperCase() + arr[0].slice(1));
+      newArr = newArr.concat(capitalizeFirst(arr.splice(1)));
+      return newArr;
+    };
+    console.log(capitalizeFirst(['car', 'taco', 'banana']));
+  };
+  // challenge5();
+
+  const challenge6 = function () {
+    const obj1 = {
+      outer: 2,
+      obj: {
+        inner: 2,
+        otherObj: {
+          superInner: 2,
+          notANumber: true,
+          alsoNotANumber: 'yup',
+        },
+      },
+    };
+
+    const obj2 = {
+      a: 2,
+      b: { b: 2, bb: { b: 3, bb: { b: 2 } } },
+      c: { c: { c: 2 }, cc: 'ball', ccc: 5 },
+      d: 1,
+      e: { e: { e: 2 }, ee: 'car' },
+    };
+
+    const nestedEvenSum = function (nested) {
+      // assuming we are passed an object
+      let total = 0;
+      for (const key in nested) {
+        if (nested[key] % 2 === 0) total += nested[key];
+        if (typeof nested[key] === 'object')
+          total += nestedEvenSum(nested[key]);
+      }
+      return total;
+    };
+    console.log(nestedEvenSum({ a: { v: { q: 6 } } }));
+    console.log(nestedEvenSum(obj1));
+    console.log(nestedEvenSum(obj2));
+  };
+  // challenge6();
+
+  const challenge7 = function () {
+    const capitalizeWords = function (arr) {
+      if (arr.length === 0) return [];
+
+      let newArr = [];
+      // use .toUpperCase() on arr[0]
+      newArr.push(arr[0].toUpperCase());
+      // call capitalizeWords on arr.splice(1);
+      newArr = newArr.concat(capitalizeWords(arr.splice(1)));
+      // put the array together
+      return newArr;
+    };
+    console.log(capitalizeWords(['i', 'am', 'learning', 'recursion']));
+  };
+  // challenge7();
+
+  const challenge8 = function () {
+    const testObj = {
+      num: 1,
+      test: [],
+      data: {
+        val: 4,
+        info: {
+          isRight: true,
+          random: 66,
+        },
+      },
+    };
+
+    const stringifyNumbers = function (obj) {
+      const newObj = {};
+      // for each key of obj
+      for (const key in obj) {
+        // if it is a number, add an empty string to it
+        if (typeof obj[key] === 'number') newObj[key] = obj[key] + '';
+        // if it is an array, copy it using the spread operator
+        else if (Array.isArray(obj[key])) newObj[key] = [...obj[key]];
+        // if it is an object, recursively take care of it
+        else if (typeof obj[key] === 'object' && !Array.isArray(obj[key]))
+          newObj[key] = stringifyNumbers(obj[key]);
+        else newObj[key] = obj[key];
+      }
+      // return the new object
+      return newObj;
+    };
+    console.log(stringifyNumbers(testObj));
+  };
+  // challenge8();
+
+  const challenge9 = function () {
+    const testObj = {
+      stuff: 'foo',
+      data: {
+        val: {
+          thing: {
+            info: 'bar',
+            moreInfo: {
+              evenMoreInfo: {
+                weMadeIt: 'baz',
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const collectStrings = function (obj) {
+      let arr = [];
+
+      // loop over each key:value pair of obj
+      for (const key in obj) {
+        // if value is a string, push it to the array
+        if (typeof obj[key] === 'string') arr.push(obj[key]);
+        // if the value is an object, recursively deal with it
+        // concatenate the array
+        if (typeof obj[key] === 'object')
+          arr = arr.concat(collectStrings(obj[key]));
+      }
+      // return the array
+      return arr;
+    };
+    console.log(collectStrings(testObj));
+  };
+  challenge9();
+};
+section9();
