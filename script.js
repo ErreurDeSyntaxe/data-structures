@@ -807,3 +807,82 @@ const section7 = function () {
   // pureRecursion();
 };
 section7();
+
+/**
+ * Take on Recursion (easy) challenges
+ */
+const section8 = function () {
+  const challenge1 = function () {
+    const power = function (base, expo) {
+      if (expo === 0) return 1;
+      return base * power(base, expo - 1);
+    };
+    console.log(power(10, 4));
+  };
+  // challenge1();
+
+  const challenge2 = function () {
+    const factorial = function (num) {
+      if (num < 0) return 0;
+      if (num <= 1) return 1;
+
+      return num * factorial(num - 1);
+    };
+    console.log(factorial(5));
+  };
+  // challenge2();
+
+  const challenge3 = function () {
+    const productOfArray = function (arr) {
+      if (arr.length === 0) return 1;
+      return arr[0] * productOfArray(arr.slice(1));
+    };
+    console.log(productOfArray([1, 2, 3, 4, 10]));
+  };
+  // challenge3();
+
+  const challenge4 = function () {
+    const recursiveRange = function (num) {
+      if (num === 0) return 0;
+
+      return num + recursiveRange(num - 1);
+    };
+    console.log(recursiveRange(6));
+  };
+  // challenge4();
+
+  const challenge5 = function () {
+    const fibonacciIterative = function (num) {
+      let fib = [1, 1];
+      let total = 0;
+
+      if (num === 0) return null;
+      if (num === 1 || num === 2) return 1;
+
+      for (let i = 2; i < num; i++) {
+        fib[i] = fib[i - 2] + fib[i - 1];
+      }
+
+      return fib;
+    };
+    // console.log(fibonacciIterative(10));
+
+    const fibonacci = function (num, fib = [1, 1]) {
+      if (num === 0) return null;
+      if (num === 1 || num === 2) return 1;
+      if (num === fib.length) return fib[fib.length - 1];
+
+      fib[fib.length] = fib[fib.length - 1] + fib[fib.length - 2];
+      return fibonacci(num, fib);
+    };
+    // console.log(fibonacci(28));
+
+    const fibonacciColt = function (n) {
+      if (n <= 2) return 1;
+      return fibonacciColt(n - 1) + fibonacciColt(n - 2);
+    };
+    // console.log(fibonacciColt(10));
+  };
+  challenge5();
+};
+section8();
