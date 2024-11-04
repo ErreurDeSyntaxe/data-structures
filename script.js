@@ -906,11 +906,12 @@ const section9 = function () {
   const challenge2 = function () {
     const isPalindrome = function (str) {
       if (str[0] !== str[str.length - 1]) return false;
-      if (str.length === 1) return true;
+      if (str.length <= 1) return true;
 
       return isPalindrome(str.substring(1, str.length - 1));
     };
     console.log(isPalindrome('amanaplanacanalpanama'));
+    console.log(isPalindrome('bb'));
   };
   // challenge2();
 
