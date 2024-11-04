@@ -1090,4 +1090,53 @@ const section9 = function () {
   };
   challenge9();
 };
-section9();
+// section9();
+
+/**
+ * Take notes about Search Algorithms
+ */
+const section10 = function () {
+  const numbers = [2, 5, 6, 9, 13, 15, 28, 30];
+  // linear search O(n)
+  const linearSearch = function (arr, value) {
+    for (let i = 0; i < arr.length; i++) if (arr[i] === value) return i;
+    return -1;
+  };
+  // console.log(linearSearch(numbers, 7));
+  // console.log(linearSearch(numbers, 17));
+
+  // binary search O(log(n)) (only works on sorted arrays)
+  const binarySearch = function (arr, value) {
+    let left = 0;
+    let right = arr.length - 1;
+
+    while (left <= right) {
+      let middle = Math.floor((left + right) / 2);
+      // console.log(left, middle, right); // visualizing the steps
+      if (arr[middle] === value) return middle;
+      if (arr[middle] < value) left = middle + 1;
+      if (arr[middle] > value) right = middle - 1;
+    }
+    // not found
+    return -1;
+  };
+  // console.log(binarySearch(numbers, 3));
+
+  const naiveStringSearch = function (longStr, pattern) {
+    let counter = 0;
+    // loop over long string
+    for (let i = 0; i < longStr.length; i++) {
+      // loop over short string
+      for (let j = 0; j < pattern.length; j++) {
+        // if chars don't match, break out of short loop
+        if (pattern[j] !== longStr[i + j]) break;
+        // if chars match, keep going
+        // if short loop is over, increment counter
+        if (j === pattern.length - 1) counter++;
+      }
+    }
+    return counter;
+  };
+  // console.log(naiveStringSearch('qefomgqweeqnomgqweggoommmgomg', 'omg'));
+};
+section10();
