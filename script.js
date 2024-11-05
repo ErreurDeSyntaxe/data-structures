@@ -1184,3 +1184,31 @@ const section11 = function () {
   console.log(bubbleSort([9, 0, 1, 2, 3, 4, 5, 6, 7, 8]));
 };
 // section11();
+
+/**
+ * Take notes about Selection Sort
+ */
+const section12 = function () {
+  const selectionSort = function (arr) {
+    // O(n^2)
+    // not very efficient or commonly used
+    // good for minimizing the number of swaps made
+    const copy = [...arr];
+    // loop over the array
+    for (let i = 0; i < copy.length; i++) {
+      let minIndex = i;
+      let start = i;
+      // loop over the array to find a smaller value
+      for (let j = i + 1; j < copy.length; j++) {
+        if (copy[j] < copy[minIndex]) minIndex = j; // a smaller value was found
+      }
+      // switch values
+      if (minIndex !== start)
+        [copy[minIndex], copy[start]] = [copy[start], copy[minIndex]];
+    }
+    return copy;
+  };
+  console.log(selectionSort([2, 4, 3, 1, 0]));
+  console.log(selectionSort([7, 5, 3, 2, 0, 8, 1, 4, 6]));
+};
+// section12();
