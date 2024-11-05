@@ -1140,4 +1140,47 @@ const section10 = function () {
   };
   // console.log(naiveStringSearch('qefomgqweeqnomgqweggoommmgomg', 'omg'));
 };
-section10();
+// section10();
+
+/**
+ * Take notes about Bubble Sort
+ */
+const section11 = function () {
+  const introSorting = function () {
+    // sorting is common in programming
+    // understanding the algorithm of built-in sorting methods is important
+    // each sorting algorithm has pros and cons
+    // interview topic that comes up a lot
+
+    // in JS, sort compares strings, not numbers (by default)
+    console.log(['d', 'a', 'c', 'b'].sort()); // [a, b, c, d]
+    console.log([10, 4, 6, 15, 50].sort()); // [10, 15, 4, 50, 6]
+    console.log([10, 4, 6, 15, 50].sort((a, b) => a - b)); // [4, 6, 10, 15, 50]
+    console.log(['apple', 'ball', 'cat'].sort((a, b) => a.length - b.length)); // ['cat', 'ball', 'apple']
+  };
+  // introSorting();
+
+  const bubbleSort = function (arr) {
+    // not efficient or commonly used
+    // O(n^2) , right?
+    // it has one great use case
+    const copy = [...arr];
+    let noSawps;
+    for (let i = copy.length; i >= 0; i--) {
+      noSawps = true;
+      for (let j = 0; j < i - 1; j++) {
+        console.log(copy, copy[j], copy[j + 1]);
+        if (copy[j] > copy[j + 1]) {
+          [copy[j], copy[j + 1]] = [copy[j + 1], copy[j]];
+          noSawps = false;
+        }
+      }
+      if (noSawps) break;
+    }
+    return copy;
+  };
+  console.log(bubbleSort([3, 4, 2, 0, 1]));
+  console.log('------------------------');
+  console.log(bubbleSort([9, 0, 1, 2, 3, 4, 5, 6, 7, 8]));
+};
+// section11();
