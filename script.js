@@ -1181,7 +1181,7 @@ const section11 = function () {
   console.log(bubbleSort([3, 4, 2, 0, 1]));
   console.log(bubbleSort([9, 0, 1, 2, 3, 4, 5, 6, 7, 8]));
 };
-section11();
+// section11();
 
 /**
  * Take notes about Selection Sort
@@ -1210,3 +1210,39 @@ const section12 = function () {
   console.log(selectionSort([7, 5, 3, 2, 0, 8, 1, 4, 6]));
 };
 // section12();
+
+/**
+ * Take notes about Insertion Sort
+ */
+const section13 = function () {
+  const insertionSort = function (arr) {
+    // O(n^2)
+    // great use case: almost sorted array
+    // best use case: the data is being sorted (nearly) every time data is added
+    const copy = [...arr];
+
+    // loop over the array
+    for (let i = 0; i < copy.length; i++) {
+      // store the target (current) value (not its index)
+      let currentVal = copy[i];
+      let j;
+      // go back in the array (towards index 0)
+      for (j = i - 1; j >= 0 && copy[j] > currentVal; j--) {
+        // switch the values until the beginning of the array (unsorted part anyway)
+        copy[j + 1] = copy[j];
+      }
+      // paste the target value in the last suitable index
+      copy[j + 1] = currentVal;
+    }
+    return copy;
+  };
+  console.log([1, 2, 0, 4, 3]);
+  console.log(insertionSort([1, 2, 0, 4, 3]));
+};
+// section13();
+
+/**
+ * Recap three previous section's algorithms
+ */
+const section14 = function () {};
+// section14();
