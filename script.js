@@ -1169,7 +1169,6 @@ const section11 = function () {
     for (let i = copy.length; i >= 0; i--) {
       noSawps = true;
       for (let j = 0; j < i - 1; j++) {
-        console.log(copy, copy[j], copy[j + 1]);
         if (copy[j] > copy[j + 1]) {
           [copy[j], copy[j + 1]] = [copy[j + 1], copy[j]];
           noSawps = false;
@@ -1180,10 +1179,9 @@ const section11 = function () {
     return copy;
   };
   console.log(bubbleSort([3, 4, 2, 0, 1]));
-  console.log('------------------------');
   console.log(bubbleSort([9, 0, 1, 2, 3, 4, 5, 6, 7, 8]));
 };
-// section11();
+section11();
 
 /**
  * Take notes about Selection Sort
