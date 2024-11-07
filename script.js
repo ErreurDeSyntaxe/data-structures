@@ -1310,3 +1310,57 @@ const section15 = function () {
   console.log(mergeSort([9, 0, 1, 6, 5, 4, 7, 2, 3, 8]));
 };
 // section15();
+
+const section16 = function () {
+  const intro = function () {
+    // like Merge Sort, it works through recursion
+    // but it uses a pivot to move many elements 'at once'
+    // O(n*log(n))
+    // best case:
+    // worst case:
+    console.log('[5, 2, 1, 8, 4, 7, 6, 3]');
+    console.log('choose 5 as the pivot');
+    console.log('[2, 1, 3, 4, 5, 7, 6, 8]');
+    console.log('5 is sorted');
+    console.log('recursively repeat the process for the left and right sides');
+    console.log('choose 2 as the pivot');
+    console.log('[1, 2, 3, 4, 5, 7, 6, 8]');
+    console.log('recursively repeat');
+    console.log('choose 1 as the pivot');
+  };
+  // intro();
+
+  // helper function for swapping values in an array
+  const swap = (arr, i, j) => ([arr[i], arr[j]] = [arr[j], arr[i]]);
+  // helper function for pivoting values
+  const quickPivot = function (arr, start = 0, end = arr.length - 1) {
+    // set the pivot to the first element of the range
+    let pivotValue = arr[start];
+    let pivotIndex = start;
+
+    // loop through the portion of the array
+    for (let i = start + 1; i <= end; i++) {
+      if (pivotValue > arr[i]) {
+        pivotIndex++;
+        swap(arr, i, pivotIndex);
+      }
+    }
+    // place the pivot in its correct position
+    swap(arr, start, pivotIndex);
+    return pivotIndex;
+  };
+
+  // main function for sorting arrays
+  const quickSort = function (arr, left = 0, right = arr.length - 1) {
+    if (left < right) {
+      // pivot one value
+      let pivotIndex = quickPivot(arr, left, right);
+      // recursively sort the left and right sides of the subarrays
+      quickSort(arr, left, pivotIndex - 1);
+      quickSort(arr, pivotIndex + 1, right);
+    }
+    return arr;
+  };
+  // console.log(quickSort([6, 3, 0, 8, 7, 1, 2, 5, 4]));
+};
+// section16();
