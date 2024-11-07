@@ -1311,6 +1311,9 @@ const section15 = function () {
 };
 // section15();
 
+/**
+ * Take notes about Quick Sort
+ */
 const section16 = function () {
   const intro = function () {
     // like Merge Sort, it works through recursion
