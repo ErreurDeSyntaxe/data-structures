@@ -1246,3 +1246,67 @@ const section13 = function () {
  */
 const section14 = function () {};
 // section14();
+
+/**
+ * Take notes about Merge Sort
+ */
+const section15 = function () {
+  // Previous algorithms work well on small scales but poorly on large scales
+  // They are sometimes called quadratic algorithms
+  // Upcoming algorithms are much more efficient with O(n*log(n))
+  const introMergeSort = function (arr) {
+    // combination of splitting, sorting, and merging
+    // it divides an array into subarrays until it gets single-item arrays
+    console.log('[8, 3, 5, 4, 7, 6, 1, 2]');
+    console.log('[8, 3, 5, 4] [7, 6, 1, 2]');
+    console.log('[8, 3] [5, 4] [7, 6] [1, 2]');
+    console.log('[8] [3] [5] [4] [7] [6] [1] [2]');
+    console.log('[3, 8] [4, 5] [6, 7] [1, 2]');
+    console.log('[3, 4, 5, 8] [1, 2, 6, 7]');
+    console.log('[1, 2, 3, 4, 5, 6, 7, 8]');
+  };
+  // console.log(introMergeSort([8, 3, 5, 4, 7, 6, 1, 2]));
+
+  const merge = function (arr1, arr2) {
+    // Implementing the merging part of Merge Sort
+    const sorted = [];
+    let i = 0;
+    let j = 0;
+
+    // comparing the already-sorted subarrays
+    while (i < arr1.length && j < arr2.length) {
+      if (arr1[i] < arr2[j]) {
+        sorted.push(arr1[i]);
+        i++;
+      } else {
+        sorted.push(arr2[j]);
+        j++;
+      }
+    }
+    // the remaining elements (if the arrays are of unequal sizes)
+    while (i < arr1.length) {
+      sorted.push(arr1[i]);
+      i++;
+    }
+    // the remaining elements (if the arrays are of unequal sizes)
+    while (j < arr2.length) {
+      sorted.push(arr2[j]);
+      j++;
+    }
+    return sorted;
+  };
+  console.log(merge([1, 10, 50], [2, 14, 99, 100]));
+
+  const mergeSort = function (arr) {
+    // O(n*log(n)) always!
+    // merge sort does NOT have a best/worst case
+    if (arr.length <= 1) return arr;
+    const mid = Math.floor(arr.length / 2);
+    const left = mergeSort(arr.slice(0, mid));
+    const right = mergeSort(arr.slice(mid));
+    return merge(left, right);
+  };
+  console.log(mergeSort([3, 1, 2, 0]));
+  console.log(mergeSort([9, 0, 1, 6, 5, 4, 7, 2, 3, 8]));
+};
+// section15();
