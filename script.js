@@ -1367,3 +1367,71 @@ const section16 = function () {
   // console.log(quickSort([6, 3, 0, 8, 7, 1, 2, 5, 4]));
 };
 // section16();
+
+/**
+ * Take notes about Radix Sort
+ */
+const section17 = function () {
+  // helper function to find a digit in any position (using strings)
+  const getDigitString = function (num, place) {
+    let string = num + '';
+    let digit = +string[(place - string.length + 1) * -1];
+    if (Number.isNaN(digit)) digit = 0;
+    return digit;
+  };
+  // console.log(getDigitString(12345, 0)); // 5
+  // console.log(getDigitString(12345, 1)); // 4
+  // console.log(getDigitString(12345, 2)); // 3
+  // console.log(getDigitString(12345, 3)); // 2
+  // console.log(getDigitString(12345, 4)); // 1
+  // console.log(getDigitString(12345, 5)); // 0
+
+  // helper function to find a digit in any position (using math)
+  const getDigitMath = function (num, place) {
+    let divider = 10 ** place;
+    return Math.floor(Math.abs(num / divider)) % 10;
+  };
+  // console.log(getDigitMath(12345, 0)); // 5
+  // console.log(getDigitMath(12345, 1)); // 4
+  // console.log(getDigitMath(12345, 2)); // 3
+  // console.log(getDigitMath(12345, 3)); // 2
+  // console.log(getDigitMath(12345, 4)); // 1
+  // console.log(getDigitMath(12345, 5)); // 0
+
+  // helper function to find the length of a number (how many digits)
+  const digitCount = function (num) {
+    if (num === 0) return 1;
+    return Math.floor(Math.log10(Math.abs(num))) + 1;
+  };
+
+  // helper function to find the length of the longest number
+  // this determines how many times Radix Sort must loop over its 'buckets'
+  const mostDigits = function (arr) {
+    let maxDigits = 0;
+    for (let i = 0; i < arr.length; i++)
+      maxDigits = Math.max(maxDigits, digitCount(arr[i]));
+    return maxDigits;
+  };
+
+  // main function to sort number
+  const radixSort = function (arr) {
+    // find the longest (not largest) number (100 is as long as 999)
+    const atMost = mostDigits(arr);
+    for (let k = 0; k < atMost; k++) {
+      // create an array of 10 arrays
+      let digitBuckets = Array.from({ length: 10 }, () => []);
+      // run the loop for all the numbers in arr
+      for (let i = 0; i < arr.length; i++) {
+        // find the 1's, 10's, 100's
+        const digit = getDigitMath(arr[i], k);
+        // sort the numbers by 1's, then 10's, then 100's...
+        digitBuckets[digit].push(arr[i]);
+      }
+      // resort (temporarily, then permanently) in array
+      arr = [].concat(...digitBuckets);
+    }
+    return arr;
+  };
+  console.log(radixSort([23, 345, 5467, 12, 2345, 9852]));
+};
+// section17();
