@@ -1435,3 +1435,79 @@ const section17 = function () {
   console.log(radixSort([23, 345, 5467, 12, 2345, 9852]));
 };
 // section17();
+
+/**
+ * Take notes about Data Structures
+ */
+const section18 = function () {
+  const intro = function () {
+    console.log('Data structures are collections of values,');
+    console.log('the relationship among them, and');
+    console.log('the functions that can be applied to the data.');
+    console.log('There are many data structures. At the end of the day,');
+    console.log('developpers choose according to the behavior/efficiency.');
+  };
+  // intro();
+
+  const ES2015 = function () {
+    console.log("JavaScript doesn't really support OOP but 差不多");
+    console.log('A class is a blueprint for creating objects');
+    console.log('Using ES6 Classes, we can implement data structures');
+  };
+  // ES2015();
+
+  const ES6classes = function () {
+    class Student {
+      constructor(firstName, lastName, year) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.grade = year;
+        this.tardies = 0;
+        this.scores = [];
+      }
+
+      fullName() {
+        return `My name is ${this.firstName} ${this.lastName}`;
+      }
+
+      markLate() {
+        this.tardies++;
+        if (this.tardies >= 3) return `${this.firstName} was expelled`;
+
+        return `${this.firstName} ${this.lastName} has been late ${this.tardies} times.`;
+      }
+
+      addScore(score) {
+        this.scores.push(score);
+        return this.scores;
+      }
+
+      calcAverage() {
+        return (
+          this.scores.reduce((accu, curr) => accu + curr, 0) /
+          this.scores.length
+        );
+      }
+
+      // like Math.floor() can't be used like 13.floor()
+      static welcomeStudent(stu) {
+        return `Welcome, ${stu?.firstName}.`;
+      }
+    }
+
+    let firstStudent = new Student('Colt', 'Steele');
+    let secondStudent = new Student('Blue', 'Steele');
+    console.log(firstStudent);
+    console.log(secondStudent);
+    console.log(firstStudent.fullName());
+    console.log(firstStudent.markLate());
+    console.log(firstStudent.markLate());
+    console.log(firstStudent.markLate());
+    console.log(secondStudent.addScore(90));
+    console.log(secondStudent.addScore(95));
+    console.log(secondStudent.calcAverage());
+    console.log(Student.welcomeStudent(firstStudent));
+  };
+  ES6classes();
+};
+// section18();
