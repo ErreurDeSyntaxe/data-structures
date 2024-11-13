@@ -1511,3 +1511,200 @@ const section18 = function () {
   ES6classes();
 };
 // section18();
+
+/**
+ * Take notes about Singly Linked Lists
+ */
+const section19 = function () {
+  // Unlike arrays, singly linked lists don't have indexes. They simply
+  // point towards the next element. For the nth item, we have to go thru
+  // n-1 items. Really good for insertion and deletion
+
+  class Node {
+    constructor(val) {
+      this.val = val;
+      this.next = null;
+    }
+  }
+
+  class SinglyLinkedList {
+    constructor() {
+      this.head = null;
+      this.tail = null;
+      this.length = 0;
+    }
+
+    // adds to end
+    push(val) {
+      const node = new Node(val);
+      if (this.head === null) {
+        this.head = node;
+        this.tail = node;
+      } else {
+        this.tail.next = node;
+        this.tail = node;
+      }
+      this.length++;
+      return this;
+    }
+
+    // remove from tail
+    pop() {
+      // empty list
+      if (this.length === 0) return;
+
+      let lastItem;
+      // only one element
+      if (this.head === this.tail) {
+        lastItem = this.head; // return value of pop()
+        this.head = null;
+        this.tail = null;
+      } else {
+        let current = this.head;
+        let secondLast;
+        while (current !== this.tail) {
+          secondLast = current;
+          current = current.next;
+        }
+        lastItem = this.tail; // return value of pop()
+        this.tail = secondLast;
+        secondLast.next = null;
+      }
+
+      this.length--;
+      return lastItem;
+    }
+
+    // removes from head
+    shift() {
+      // empty list
+      if (this.length === 0) return;
+
+      let firstItem = this.head;
+
+      if (this.length === 1) {
+        this.head = null;
+        this.tail = null;
+      }
+
+      this.head = firstItem.next;
+      firstItem.next = null;
+
+      this.length--;
+      return firstItem;
+    }
+
+    // adds to beginning
+    unshift(val) {
+      const node = new Node(val);
+
+      if (this.length === 0) {
+        this.head = node;
+        this.tail = node;
+      } else {
+        node.next = this.head;
+        this.head = node;
+      }
+
+      this.length++;
+      return this;
+    }
+
+    // returns node at index
+    get(index) {
+      // index exceeds range
+      if (index < 0 || index >= this.length) return null;
+
+      let node = this.head;
+      for (let i = 0; i <= index; i++) {
+        if (i === index) return node;
+        node = node.next;
+      }
+    }
+
+    // overwrites node at index
+    set(index, value) {
+      const node = this.get(index);
+      if (!node) return false;
+
+      node.val = value;
+      return true;
+    }
+
+    // inserts node at index
+    insert(index, value) {
+      // index exceeds range
+      if (index < 0 || index > this.length) return false;
+      if (index === 0) return !!this.unshift(value);
+      if (index === this.length) return !!this.push(value);
+
+      const leftNode = this.get(index - 1);
+      const rightNode = leftNode.next;
+      const newNode = new Node(value);
+
+      leftNode.next = newNode;
+      newNode.next = rightNode;
+      this.length++;
+      return true;
+    }
+
+    remove(index) {
+      // index exceeds range
+      if (index < 0 || index >= this.length) return;
+      if (index === 0) return this.shift();
+      if (index === this.length - 1) return this.pop();
+
+      const leftNode = this.get(index - 1);
+      const targetNode = leftNode.next;
+      const rightNode = targetNode.next;
+      leftNode.next = rightNode;
+
+      this.length--;
+      return targetNode;
+    }
+
+    reverse() {
+      let node = this.head;
+      this.head = this.tail;
+      this.tail = node;
+
+      let previous = null;
+      let next;
+      for (let i = 0; i < this.length; i++) {
+        next = node.next;
+        node.next = previous;
+        previous = node;
+        node = next;
+      }
+      return 'reversed';
+    }
+  }
+
+  const list = new SinglyLinkedList();
+  console.log(list.push('ONE').push('TWO').push('THREE').push('FOUR'));
+  // console.log(list.pop());
+  // console.log(list.shift());
+  // console.log(list.unshift('UN'));
+  // console.log(list.get(4));
+  // console.log(list.set(0, 'UNO'));
+  // console.log(list.set(1, 'DOS'));
+  // console.log(list.set(2, 'TRES'));
+  // console.log(list.set(3, 'QUATRO'));
+  // console.log(list.insert(0, 'ZERO'));
+  // console.log(list.insert(4, '3.5'));
+  // console.log(list.remove(4));
+  // console.log(list.remove(0));
+  console.log(list.reverse());
+
+  const conclusion = function () {
+    console.log('Singly Linked Lists Big O');
+    console.log('Insertion: O(1)');
+    console.log('Removing:  O(1) to O(n)');
+    console.log('Searching: O(n)');
+    console.log('Accessing: O(n)');
+    // good at insertion and deletion at the beginning
+    // not good for access
+  };
+  conclusion();
+};
+// section19();
