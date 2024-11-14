@@ -1882,8 +1882,32 @@ const section20 = function () {
 
       return node;
     }
+
+    // reverse the order of the DLL
+    reverse() {
+      if (this.length === 0) return;
+      if (this.length === 1) return this;
+
+      let previous = null;
+      let current = this.head;
+      this.head = this.tail;
+
+      // reassign next and previous
+      while (current !== null) {
+        const temp = current.next;
+        current.next = previous;
+        current.prev = temp;
+        previous = current;
+        current = temp;
+      }
+
+      // reassign tail
+      this.tail = previous;
+      return this;
+    }
   }
 
+  // testing out the methods of Doubly Linked List
   const list = new DoublyLinkedList();
   console.log(list.push('ONE').push('TWO').push('THREE').push('FOUR'));
   console.log(list.push('FIVE').push('SIX').push('SEVEN').push('EIGHT'));
@@ -1894,9 +1918,10 @@ const section20 = function () {
   // console.log(list.get(0));
   // console.log(list.get(4));
   // console.log(list.get(10));
-  console.log(list.insert(11, 'huit lmao'));
+  // console.log(list.insert(11, 'huit lmao'));
   // console.log(list.remove(33));
-  console.log(list.remove(1));
+  // console.log(list.remove(1));
+  console.log(list.reverse());
 
   const conclusion = function () {
     console.log('Doubly Linked Lists Big O');
