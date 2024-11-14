@@ -1708,3 +1708,207 @@ const section19 = function () {
   conclusion();
 };
 // section19();
+
+/**
+ * Take notes about Doubly Linked Lists
+ */
+const section20 = function () {
+  const intro = function () {
+    console.log('Double Linked Lists');
+    console.log('point to the next element');
+    console.log('AND the previous element');
+    console.log('They are more flexible but use more memory');
+  };
+  // intro();
+
+  class Node {
+    constructor(value) {
+      this.val = value;
+      this.next = null;
+      this.previous = null;
+    }
+  }
+
+  class DoublyLinkedList {
+    constructor() {
+      this.head = null;
+      this.tail = null;
+      this.length = 0;
+    }
+
+    // add node to end
+    push(value) {
+      const node = new Node(value);
+
+      if (this.length === 0) {
+        this.head = node;
+        this.tail = node;
+      } else {
+        this.tail.next = node;
+        node.previous = this.tail;
+        this.tail = node;
+      }
+      this.length++;
+      return this;
+    }
+
+    // remove node from end
+    pop() {
+      // empty list
+      if (!this.head) return;
+
+      const lastItem = this.tail;
+      if (this.head === this.tail) {
+        this.head = null;
+        this.tail = null;
+      } else {
+        this.tail = this.tail.previous;
+        this.tail.next = null;
+        lastItem.previous = null;
+      }
+
+      this.length--;
+      return lastItem;
+    }
+
+    // remove node from beginning
+    shift() {
+      if (!this.head) return;
+
+      const firstItem = this.head;
+      if (this.head === this.tail) {
+        this.head = null;
+        this.tail = null;
+      } else {
+        this.head = this.head.next;
+        this.head.previous = null;
+        firstItem.next = null;
+      }
+
+      this.length--;
+      return firstItem;
+    }
+
+    // add node to beginning
+    unshift(value) {
+      const node = new Node(value);
+
+      if (!this.head) {
+        this.head = node;
+        this.tail = node;
+      } else {
+        node.next = this.head;
+        this.head.previous = node;
+        this.head = node;
+      }
+
+      this.length++;
+      return this;
+    }
+
+    // return value at index
+    get(index) {
+      // index exceeds range
+      if (index < 0 || index >= this.length) return;
+
+      let target;
+      if (index >= this.length / 2) {
+        // start from tail
+        target = this.tail;
+        index = this.length - 1 - index;
+        for (let i = 0; i <= index; i++) {
+          if (i === index) break;
+          target = target.previous;
+        }
+      } else {
+        // start from head
+        target = this.head;
+        for (let i = 0; i <= index; i++) {
+          if (i === index) break;
+          target = target.next;
+        }
+      }
+
+      return target;
+    }
+
+    // set value at index
+    set(index, value) {
+      const node = this.get(index);
+      if (node) return !!(node.val = value);
+      return false;
+    }
+
+    // insert node at index
+    insert(index, value) {
+      if (index < 0 || index > this.length) return;
+      if (index === 0) return !!this.unshift(value);
+      if (index === this.length) return !!this.push(value);
+
+      const node = new Node(value);
+      // get nodes on each 'side'
+      const left = this.get(index - 1);
+      const right = left.next;
+
+      // left-side connections
+      left.next = node;
+      node.previous = left;
+
+      // right-side connections
+      node.next = right;
+      right.previous = node;
+
+      return !!this;
+    }
+
+    // remove node at index
+    remove(index) {
+      if (index === 0) return this.shift();
+      if (index === this.length - 1) return this.pop();
+
+      const node = this.get(index);
+      if (!node) return false;
+
+      const left = node.previous;
+      const right = node.next;
+
+      // connect left and right
+      left.next = right;
+      right.previous = left;
+
+      // sever node from left and right
+      node.previous = null;
+      node.next = null;
+
+      return node;
+    }
+  }
+
+  const list = new DoublyLinkedList();
+  console.log(list.push('ONE').push('TWO').push('THREE').push('FOUR'));
+  console.log(list.push('FIVE').push('SIX').push('SEVEN').push('EIGHT'));
+  console.log(list.push('NINE').push('TEN').push('ELEVEN').push('TWELVE'));
+  // console.log(list.pop());
+  // console.log(list.shift());
+  // console.log(list.unshift('ONE'));
+  // console.log(list.get(0));
+  // console.log(list.get(4));
+  // console.log(list.get(10));
+  console.log(list.insert(11, 'huit lmao'));
+  // console.log(list.remove(33));
+  console.log(list.remove(1));
+
+  const conclusion = function () {
+    console.log('Doubly Linked Lists Big O');
+    console.log('Insertion: O(1) [same as Singly]');
+    console.log('Removing:  O(1) [vs O(n)]');
+    console.log('Searching: O(n) [same as Singly]');
+    console.log('Accessing: O(n) [same as Singly but O(n/2)]');
+    // compared to Singly Linked Lists, Doubly Linked Lists:
+    // inserting data is still easy
+    // searching can be done in half the time
+    // take up more memory because of extra pointer
+  };
+  conclusion();
+};
+// section20();
