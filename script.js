@@ -1937,3 +1937,148 @@ const section20 = function () {
   conclusion();
 };
 // section20();
+
+/**
+ * Take notes about Stakcs & Queues
+ */
+const section21 = function () {
+  const stackIntro = function () {
+    console.log('What is a stack?');
+    console.log('It is a collection of data that abides by LIFO');
+    console.log('Last In, First Out');
+    // we can use an array to work as a stack
+    // as long as we use push & pop (or less efficiently, shift & unshift)
+    // but arrays are overkill for stacks (not need for indexes, for example)
+    // Linked Lists are much better
+  };
+  // stackIntro();
+
+  // Stack Code
+  {
+    class Node {
+      constructor(value) {
+        this.value = value;
+        this.next = null;
+      }
+    }
+
+    class Stack {
+      constructor() {
+        this.first = null;
+        this.last = null;
+        this.size = 0;
+      }
+
+      // add to the BEGINNING (it's a stack) to maintain O(1) constant time
+      push(value) {
+        const node = new Node(value);
+        if (!this.first) {
+          this.first = node;
+          this.last = node;
+        } else {
+          const temp = this.first;
+          this.first = node;
+          this.first.next = temp;
+        }
+        return ++this.size;
+      }
+
+      // remove from the BEGINNING
+      pop() {
+        if (!this.first) return null;
+
+        const temp = this.first;
+        if (this.first === this.last) this.last = null;
+        this.first = this.first.next;
+
+        this.size--;
+        return temp.value;
+      }
+    }
+
+    // testing method functionality
+    const stack = new Stack();
+    // console.log(stack.push(1));
+    // console.log(stack.push(2));
+    // console.log(stack.push(3));
+    // console.log(stack.pop());
+  }
+
+  const stackConclusion = function () {
+    console.log('Stack Big O');
+    console.log('Insertion: O(1)');
+    console.log('Removing:  O(1)');
+    console.log('Searching: O(n) but we do not care');
+    console.log('Accessing: O(n) but we do not care');
+    console.log('Stacks are used to handle undo/redo or browser back/forth');
+  };
+  // stackConclusion();
+
+  const queueIntro = function () {
+    console.log('Queues are not LIFO, they are FIFO');
+    console.log('First In, First Out');
+    console.log('Just like waiting in line');
+  };
+  // queueIntro();
+
+  // Queue Code
+  {
+    class Node {
+      constructor(value) {
+        this.val = value || null;
+        this.next = null;
+      }
+    }
+
+    class Queue {
+      constructor() {
+        this.first = null;
+        this.last = null;
+        this.length = 0;
+      }
+
+      // add to the end of the queue
+      enqueue(value) {
+        const node = new Node(value);
+        if (!this.first) this.first = node;
+        else this.last.next = node;
+        this.last = node;
+
+        return `queue length: ${++this.length}`;
+      }
+
+      // remove from the beginning of the queue
+      dequeue() {
+        if (!this.first) return;
+
+        const first = this.first;
+        this.first = first.next;
+        first.next = null;
+
+        this.length--;
+        return first;
+      }
+    }
+
+    const queue = new Queue();
+    // console.log(queue.enqueue('ONE'));
+    // console.log(queue.enqueue('TWO'));
+    // console.log(queue.enqueue('THREE'));
+    // console.log(queue.dequeue());
+    // console.log(queue.dequeue());
+    // console.log(queue.dequeue());
+    // console.log(queue.dequeue());
+    // console.log(queue);
+  }
+
+  const queueConclusion = function () {
+    console.log('Queue Big O');
+    console.log('Insertion: O(1)');
+    console.log('Removing:  O(1)');
+    console.log('Searching: O(n) but we do not care');
+    console.log('Accessing: O(n) but we do not care');
+    console.log('Stacks are used to ');
+  };
+  queueConclusion();
+};
+// section21();
