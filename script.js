@@ -728,7 +728,7 @@ const section6 = function () {
   };
   // challenge7();
 };
-section6();
+// section6();
 
 /**
  * Take notes about Recursion
@@ -806,7 +806,7 @@ const section7 = function () {
   };
   // pureRecursion();
 };
-section7();
+// section7();
 
 /**
  * Take on Recursion (easy) challenges
@@ -2077,8 +2077,123 @@ const section21 = function () {
     console.log('Removing:  O(1)');
     console.log('Searching: O(n) but we do not care');
     console.log('Accessing: O(n) but we do not care');
-    console.log('Stacks are used to ');
+    console.log('Queues are used to keep arrival order');
   };
   queueConclusion();
 };
 // section21();
+
+/**
+ * Take notes about Trees
+ */
+const section22 = function () {
+  const intro = function () {
+    console.log('Trees');
+    console.log('Made of nodes that "branch out"');
+    console.log('Parent Nodes point to Children Nodes');
+    console.log('A Tree has one and only one Root');
+    console.log('A Leaf is Child Node without Child');
+    console.log('An Edge is the link between Parent & Child');
+    console.log('Binary Search Trees are great for storing and searching');
+  };
+  // intro();
+
+  class Node {
+    constructor(value) {
+      this.value = value;
+      this.left = null;
+      this.right = null;
+    }
+  }
+  class BinarySearchTree {
+    constructor() {
+      this.root = null;
+    }
+
+    // insert a node in the correct place
+    insert(value) {
+      const node = new Node(value);
+      if (!this.root) return (this.root = node);
+
+      let current = this.root;
+      while (true) {
+        // same value
+        if (value === current.value) return;
+
+        // toward a left branch
+        if (value < current.value) {
+          if (current.left === null) {
+            current.left = node;
+            return this;
+          }
+          current = current.left;
+        }
+
+        // toward a right branch
+        if (value > current.value) {
+          if (current.right === null) {
+            current.right = node;
+            return this;
+          }
+          current = current.right;
+        }
+      }
+    }
+
+    // search for a node
+    find(value) {
+      if (!this.root) return null;
+      // start at the root
+      let current = this.root;
+
+      // I don't like while(true) loops
+      while (true) {
+        if (current === null) return undefined;
+        // if value === current, return true
+        if (value === current.value) return current;
+        // if value < current, search left
+        if (value < current.value) current = current.left;
+        // if value > current, search right
+        if (value > current.value) current = current.right;
+      }
+    }
+
+    // checks if node is in tree
+    contains(value) {
+      if (!this.root) return null;
+      // start at the root
+      let current = this.root;
+
+      // I don't like while(true) loops
+      while (true) {
+        if (current === null) return false;
+        // if value === current, return true
+        if (value === current.value) return true;
+        // if value < current, search left
+        if (value < current.value) current = current.left;
+        // if value > current, search right
+        if (value > current.value) current = current.right;
+      }
+    }
+  }
+
+  const tree = new BinarySearchTree();
+  tree.root = new Node(10);
+  // tree.root.right = new Node(15);
+  // tree.root.left = new Node(7);
+  // tree.root.left.right = new Node(9);
+  console.log(tree.insert(5).insert(13).insert(11).insert(2).insert(7));
+  console.log(tree.find(7));
+  console.log(tree.contains(7));
+
+  const conclusion = function () {
+    console.log('Tree Big O');
+    console.log('Insertion: O(log(n))');
+    console.log('Searching: O(log(n))');
+    console.log('Removing:  N/A');
+    console.log('Accessing: N/A');
+    console.log('Trees are used to ');
+  };
+  conclusion();
+};
+section22();
