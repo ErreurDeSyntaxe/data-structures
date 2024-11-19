@@ -2192,8 +2192,8 @@ const section22 = function () {
     console.log('Searching: O(log(n))');
     console.log('Removing:  N/A');
     console.log('Accessing: N/A');
-    console.log('Trees are used to ');
+    console.log('Trees are used to store and search quickly');
   };
   conclusion();
 };
-section22();
+// section22();
