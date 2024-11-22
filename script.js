@@ -2197,3 +2197,200 @@ const section22 = function () {
   conclusion();
 };
 // section22();
+
+/**
+ * Take notes about Tree Traversal
+ */
+const section23 = function () {
+  const intro = function () {
+    console.log('How to visit every node once?');
+    console.log('There are two main approaches to traversing a tree:');
+    console.log('Breadth First Search (BFS) & Depth First Search (DFS)');
+    console.log('They prioritize visiting nodes horizontally or vertically');
+  };
+  // intro();
+
+  const breadthDepthFirst = function () {
+    // Tree code (simplified)
+    class NodeT {
+      constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+      }
+    }
+    class BinarySearchTree {
+      constructor() {
+        this.root = null;
+      }
+
+      // insert a node in the correct place
+      insert(value) {
+        const node = new NodeT(value);
+        if (!this.root) return (this.root = node);
+
+        let current = this.root;
+        while (true) {
+          // same value
+          if (value === current.value) return;
+
+          // toward a right branch
+          if (value > current.value) {
+            if (current.right === null) {
+              current.right = node;
+              return this;
+            }
+            current = current.right;
+          }
+
+          // toward a left branch
+          if (value < current.value) {
+            if (current.left === null) {
+              current.left = node;
+              return this;
+            }
+            current = current.left;
+          }
+        }
+      }
+    }
+
+    // Queue code
+    class NodeQ {
+      constructor(value) {
+        this.val = value || null;
+        this.next = null;
+      }
+    }
+
+    class Queue {
+      constructor() {
+        this.first = null;
+        this.last = null;
+        this.length = 0;
+      }
+
+      // add to the end of the queue
+      enqueue(value) {
+        const node = new NodeQ(value);
+        if (!this.first) this.first = node;
+        else this.last.next = node;
+        this.last = node;
+
+        return `queue length: ${++this.length}`;
+      }
+
+      // remove from the beginning of the queue
+      dequeue() {
+        if (!this.first) return;
+
+        const first = this.first;
+        this.first = first.next;
+        first.next = null;
+
+        this.length--;
+        return first;
+      }
+    }
+    const tree = new BinarySearchTree();
+    tree.insert(10);
+    tree
+      .insert(6)
+      .insert(15)
+      .insert(3)
+      .insert(8)
+      .insert(20)
+      .insert(1)
+      .insert(14);
+    const queue = new Queue();
+
+    const BFS = function () {
+      //        10
+      //     6     15
+      //   3  8  14  20
+      // 1
+      // expected output: 10, 6, 15, 3, 8, 14, 20, 1
+      queue.enqueue(tree.root);
+      while (queue.first) {
+        const node = queue.first;
+        queue.dequeue();
+        if (node.val.left) queue.enqueue(node.val.left);
+        if (node.val.right) queue.enqueue(node.val.right);
+        console.log(node.val.value);
+      }
+    };
+    // BFS();
+    console.log(tree);
+
+    const DFSpre = function (starting) {
+      //        10
+      //     6     15
+      //   3  8  14  20
+      // 1
+      // expected output: 10, 6, 3, 1, 8, 15, 14, 20
+      const visited = [];
+      let current = starting;
+      const traverse = function (node) {
+        visited.push(node.value);
+        if (node.left) traverse(node.left);
+        if (node.right) traverse(node.right);
+      };
+      traverse(current);
+
+      return visited;
+    };
+    console.log(DFSpre(tree.root));
+
+    const DFSpost = function (starting) {
+      //        10
+      //     6     15
+      //   3  8  14  20
+      // 1
+      // expected output: 1, 3, 8, 6, 14, 20, 15, 10
+      const visited = [];
+      let current = starting;
+      const traverse = function (node) {
+        if (node.left) traverse(node.left);
+        if (node.right) traverse(node.right);
+        visited.push(node.value);
+      };
+      traverse(current);
+
+      return visited;
+    };
+    console.log(DFSpost(tree.root));
+
+    const DFSinOrder = function (starting) {
+      //        10
+      //     6     15
+      //   3  8  14  20
+      // 1
+      // expected output: 1, 3, 6, 8, 10, 15, 20
+      const visited = [];
+      let current = starting;
+      const traverse = function (node) {
+        if (node.left) traverse(node.left);
+        visited.push(node.value);
+        if (node.right) traverse(node.right);
+      };
+      traverse(current);
+
+      return visited;
+    };
+    console.log(DFSinOrder(tree.root));
+  };
+  breadthDepthFirst();
+
+  const conclusion = function () {
+    console.log('BFS vs DFS Big O');
+    console.log('DFS uses less memory (smaller space complexity)');
+    console.log('BFS uses more memory');
+    console.log('Insertion: O(log(n))');
+    console.log('Searching: O(log(n))');
+    console.log('Removing:  N/A');
+    console.log('Accessing: N/A');
+    console.log('Trees are used to store and search quickly');
+  };
+  // conclusion();
+};
+// section23();
