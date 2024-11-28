@@ -1939,7 +1939,7 @@ const section20 = function () {
 // section20();
 
 /**
- * Take notes about Stakcs & Queues
+ * Take notes about Stacks & Queues
  */
 const section21 = function () {
   const stackIntro = function () {
@@ -2394,3 +2394,282 @@ const section23 = function () {
   // conclusion();
 };
 // section23();
+
+/**
+ * Take notes about Heaps
+ */
+const section24 = function () {
+  const intro = function () {
+    console.log('Binary Heaps');
+    console.log('Binary heaps are a kind of tree');
+    console.log('In a max binary heap, children < their parent');
+    //        33
+    //    18      41
+    //  12  27  39
+    console.log('In a min binary heap, children > their parent');
+    console.log('Binary heaps are as compact as possible');
+    console.log('Meaning left and right are full b4 moving down');
+    console.log('Left is filled before right');
+    console.log('Siblings share no relationship with each other');
+  };
+  // intro();
+
+  // implement MaxBinaryHeap and MinBinaryHeap
+  // in MBH, all children are smaller/larger than their direct parent
+  // so the root is the largest element
+  const main = function () {
+    class Node {
+      constructor(value, priority) {
+        this.val = value ?? null; // accepts 0 as a value
+        this.pri = priority ?? null; // accepts 0 as a priority
+      }
+    }
+
+    class MaxBinaryHeap {
+      constructor() {
+        this.values = [];
+      }
+
+      // add node to queue
+      insert(value) {
+        if (typeof value !== 'number' || isNaN(value)) return this;
+
+        const node = new Node(value);
+        this.values.push(node);
+        this.bubbleUp(this.values.length - 1);
+
+        return this;
+      }
+
+      // 'sort' nodes to respect Max Binary Tree structure
+      bubbleUp(nodeIndex) {
+        if (nodeIndex === 0) return;
+
+        // recursion could cause stack overflow in very deep heaps
+        // const node = this.values[nodeIndex];
+        // const parentIndex = Math.floor((nodeIndex - 1) / 2);
+        // const parent = this.values[parentIndex];
+        // if (node.val > parent.val) {
+        //   this.swap(nodeIndex, parentIndex);
+        //   this.bubbleUp(parentIndex);
+        // }
+
+        while (nodeIndex > 0) {
+          const node = this.values[nodeIndex];
+          const parentIndex = Math.floor((nodeIndex - 1) / 2);
+          const parent = this.values[parentIndex];
+          if (node.val > parent.val) {
+            this.swap(nodeIndex, parentIndex);
+            nodeIndex = parentIndex;
+          } else break;
+        }
+      }
+
+      // swap values at given indexes
+      swap(a, b) {
+        [this.values[a], this.values[b]] = [this.values[b], this.values[a]];
+      }
+
+      // remove the root
+      extractRoot() {
+        // send the root to the tail end of the 'list' (array)
+        this.swap(0, this.values.length - 1);
+        const root = this.values.pop();
+
+        // edge case: don't need to percolate
+        if (this.values.length === 0) return root;
+
+        // reorder the heap to have largest node as root
+        this.percolate(0);
+
+        // return the initial root
+        return root;
+      }
+
+      // place the new root in its correct place in the heap
+      percolate(nodeIdx) {
+        while (true) {
+          const node = this.values[nodeIdx];
+          const length = this.values.length; // to shorten subsequent lines
+          const leftIdx = nodeIdx * 2 + 1;
+          const rightIdx = leftIdx + 1;
+
+          let leftNode = leftIdx < length ? this.values[leftIdx] : null;
+          let rightNode = rightIdx < length ? this.values[rightIdx] : null;
+          let swapIdx = null;
+
+          // check if node exists
+          if (leftNode) {
+            if (leftNode.val > node.val) {
+              swapIdx = leftIdx;
+            }
+          }
+          if (rightNode) {
+            if (
+              // left node is NOT larger & right node is larger
+              (!swapIdx && rightNode.val > node.val) ||
+              (swapIdx && rightNode.val > leftNode.val)
+              // left node is larger BUT right is larger than left
+            ) {
+              swapIdx = rightIdx;
+            }
+          }
+
+          // if both children are smaller, no swap occured. break
+          if (!swapIdx) break;
+
+          // swap the nodes
+          this.swap(nodeIdx, swapIdx);
+          // repeat the loop with the new index (whichever child was swapped)
+          nodeIdx = swapIdx;
+        }
+      }
+    }
+
+    class MinBinaryHeap {
+      constructor() {
+        this.values = [];
+      }
+
+      // add node to queue
+      insert(value, priority) {
+        if (typeof value !== 'string' || priority < 0) return this;
+
+        const node = new Node(value, priority);
+        this.values.push(node);
+        this.bubbleUp(this.values.length - 1);
+
+        return this;
+      }
+
+      // 'sort' nodes to respect Max Binary Tree structure
+      bubbleUp(nodeIndex) {
+        if (nodeIndex === 0) return;
+
+        while (nodeIndex > 0) {
+          const node = this.values[nodeIndex];
+          const parentIndex = Math.floor((nodeIndex - 1) / 2);
+          const parent = this.values[parentIndex];
+          if (node.pri < parent.pri) {
+            this.swap(nodeIndex, parentIndex);
+            nodeIndex = parentIndex;
+          } else break;
+        }
+      }
+
+      // swap values at given indexes
+      swap(a, b) {
+        [this.values[a], this.values[b]] = [this.values[b], this.values[a]];
+      }
+
+      // remove the root
+      extractRoot() {
+        // send the root to the tail end of the 'list' (array)
+        this.swap(0, this.values.length - 1);
+        const root = this.values.pop();
+
+        // edge case: don't need to percolate
+        if (this.values.length === 0) return root;
+
+        // reorder the heap to have largest node as root
+        this.percolate(0);
+
+        // return the initial root
+        return root;
+      }
+
+      // place the new root in its correct place in the heap
+      percolate(nodeIdx) {
+        while (true) {
+          const node = this.values[nodeIdx];
+          const length = this.values.length; // to shorten subsequent lines
+          const leftIdx = nodeIdx * 2 + 1;
+          const rightIdx = leftIdx + 1;
+
+          let leftNode = leftIdx < length ? this.values[leftIdx] : null;
+          let rightNode = rightIdx < length ? this.values[rightIdx] : null;
+          let swapIdx = null;
+
+          // check if node exists
+          if (leftNode) {
+            if (leftNode.pri < node.pri) {
+              swapIdx = leftIdx;
+            }
+          }
+          if (rightNode) {
+            if (
+              // left node is NOT larger & right node is larger
+              (!swapIdx && rightNode.pri < node.pri) ||
+              (swapIdx && rightNode.pri < leftNode.pri)
+              // left node is larger BUT right is larger than left
+            ) {
+              swapIdx = rightIdx;
+            }
+          }
+
+          // if both children are smaller, no swap occured. break
+          if (!swapIdx) break;
+
+          // swap the nodes
+          this.swap(nodeIdx, swapIdx);
+          // repeat the loop with the new index (whichever child was swapped)
+          nodeIdx = swapIdx;
+        }
+      }
+    }
+
+    const minHeap = new MinBinaryHeap();
+    minHeap
+      .insert('vomitting blood', 30)
+      .insert('high fever', 40)
+      .insert('common cold', 100)
+      .insert('common cold & mild fever', 90)
+      .insert('head trauma', 10)
+      .insert('severe head trauma', 0)
+      .insert('mild head trauma', 20);
+
+    console.log([minHeap.extractRoot()?.val]);
+    console.log([minHeap.extractRoot()?.val]);
+    console.log([minHeap.extractRoot()?.val]);
+    console.log([minHeap.extractRoot()?.val]);
+    console.log([minHeap.extractRoot()?.val]);
+    console.log([minHeap.extractRoot()?.val]);
+    console.log([minHeap.extractRoot()?.val]);
+
+    const maxHeap = new MaxBinaryHeap();
+    maxHeap
+      .insert(20)
+      .insert(10)
+      .insert(30)
+      .insert(0)
+      .insert(40)
+      .insert(50)
+      .insert(90)
+      .insert(60)
+      .insert(100)
+      .insert(110);
+    console.log(maxHeap.values.map((node) => node?.val));
+    console.log([maxHeap.extractRoot()?.val]);
+    console.log([maxHeap.extractRoot()?.val]);
+    console.log([maxHeap.extractRoot()?.val]);
+    console.log([maxHeap.extractRoot()?.val]);
+    console.log([maxHeap.extractRoot()?.val]);
+    console.log([maxHeap.extractRoot()?.val]);
+    console.log([maxHeap.extractRoot()?.val]);
+    console.log([maxHeap.extractRoot()?.val]);
+    console.log([maxHeap.extractRoot()?.val]);
+    console.log([maxHeap.extractRoot()?.val]);
+    console.log(maxHeap.values);
+  };
+  // main();
+
+  const conclusion = function () {
+    console.log('Binary Heaps Big O');
+    console.log('Insertion: O(log(n))');
+    console.log('Removing:  O(log(n))');
+    console.log('Searching: O(n) (heaps are not made for searching)');
+    console.log('Heaps are great for insertion and removal');
+  };
+  // conclusion();
+};
+// section24();
