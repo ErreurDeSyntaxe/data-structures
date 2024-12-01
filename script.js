@@ -2673,3 +2673,156 @@ const section24 = function () {
   // conclusion();
 };
 // section24();
+
+/**
+ * Take notes about Hash Tables (Maps)
+ */
+const section25 = function () {
+  const intro = function () {
+    console.log('Hash tables are very common (built into languages)');
+    console.log('Hash tables are used to store key-value pair');
+    console.log('Like in arrays, but the keys are not ordered');
+    console.log('They are very fast');
+    console.log('They are called Hash Tables because');
+    console.log('they require Hash Functions');
+    console.log('Hash functions MUST be fast aka O(n)');
+    console.log('Hash functions MUST distribute uniformly');
+    console.log('Hash functions MUST be deterministic');
+  };
+  // intro();
+
+  const main = function () {
+    // only works on strings
+    // not constant time (it is linear)
+    // clusters data (does not distribute uniformly)
+    const basicHash = function (key, arrayLen) {
+      let total = 0;
+      for (let char of key) {
+        let value = char.charCodeAt(0) - 96;
+        total = (total + value) % arrayLen;
+      }
+      return total;
+    };
+    // console.log(basicHash('pink', 10));
+    // console.log(basicHash('blue', 10)); // gives 0, like 'pink'
+    // console.log(basicHash('yellow', 10));
+    // console.log(basicHash('red', 10));
+
+    const intHash = function (key, arrayLen) {
+      let total = 0;
+      const WEIRD_PRIME = 31;
+      for (let i = 0; i < Math.min(key.length, 100); i++) {
+        const char = key[i];
+        const value = char.charCodeAt(0) - 96;
+        total = (total * WEIRD_PRIME + value) % arrayLen;
+      }
+      return total;
+    };
+
+    // console.log(intHash('pink', 13)); // 5
+    // console.log(intHash('hello', 13)); // 7
+    // console.log(intHash('place', 13)); // 1
+    // console.log(intHash('ice cream', 13)); // 11
+    // console.log(intHash('dictionary', 13)); // 7 collision!
+
+    const collisions = function () {
+      console.log('When collisions happen, we use');
+      console.log('Separate Chaining || Linear Probing');
+      console.log('Chaining is a nested data structure');
+      console.log('Probing is finding the next available slot');
+    };
+    // collisions();
+
+    class HashTable {
+      constructor(size = 53) {
+        this.keyMap = new Array(size);
+      }
+
+      _hash(key) {
+        let total = 0;
+        const WEIRD_PRIME = 31;
+
+        for (let i = 0; i < Math.min(key.length, 100); i++) {
+          const char = key[i];
+          let value = char.charCodeAt(0) - 96;
+          total = (total * WEIRD_PRIME + value) % this.keyMap.length;
+        }
+
+        return total;
+      }
+
+      // write key & value pair thru separate chaining
+      set(key, value) {
+        const index = this._hash(key);
+        if (!this.keyMap[index]) this.keyMap[index] = [];
+        this.keyMap[index].push([key, value]);
+      }
+
+      // return the value to a key (if present)
+      get(key) {
+        const index = this._hash(key);
+        if (!this.keyMap[index]) return undefined;
+
+        for (let i = 0; i < this.keyMap[index].length; i++)
+          if (this.keyMap[index][i][0] === key) return this.keyMap[index][i][1];
+      }
+
+      // return an array of keys in the table
+      keys() {
+        const keysArr = [];
+
+        for (let i = 0; i < this.keyMap.length; i++) {
+          if (this.keyMap[i]) {
+            for (let j = 0; j < this.keyMap[i].length; j++) {
+              if (!keysArr.includes(this.keyMap[i][j][0]))
+                keysArr.push(this.keyMap[i][j][0]);
+            }
+          }
+        }
+
+        return keysArr;
+      }
+
+      // return an array of values in the table
+      values() {
+        const valuesArr = [];
+
+        for (let i = 0; i < this.keyMap.length; i++) {
+          if (this.keyMap[i]) {
+            for (let j = 0; j < this.keyMap[i].length; j++) {
+              if (!valuesArr.includes(this.keyMap[i][j][1]))
+                valuesArr.push(this.keyMap[i][j][1]);
+            }
+          }
+        }
+
+        return valuesArr;
+      }
+    }
+
+    const ht = new HashTable(4);
+    ht.set('hello world', 'goodbye!!');
+    ht.set('dogs', 'are cool');
+    ht.set('cats', 'are fine');
+    ht.set('i love', 'pizza');
+    ht.set('hi', 'bye');
+    ht.set('French', 'fries');
+    console.log(ht);
+    // console.log(ht.get('i love'));
+    const values = ht.values();
+    console.log(values);
+    const keys = ht.keys();
+    console.log(keys);
+  };
+  // main();
+
+  const conclusion = function () {
+    console.log('Hash Maps Big O');
+    console.log('Insertion: O(1)');
+    console.log('Removal:  O(1)');
+    console.log('Access: O(1)');
+    console.log('Hash Maps are great for retrieving info');
+  };
+  // conclusion();
+};
+// section25();
