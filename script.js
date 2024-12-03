@@ -2826,3 +2826,96 @@ const section25 = function () {
   // conclusion();
 };
 // section25();
+
+/**
+ * Take notes of Graphs
+ */
+const section26 = function () {
+  const intro = function () {
+    console.log('');
+    console.log('Graphs can be weighted/unweighted');
+    console.log('Graphs can be directed/undirected');
+    console.log('Adjacency Matrix vs Adjacency List');
+    console.log('An adjacency list represents real-life data better');
+    console.log('A list takes less space, is fater to iterate over edges');
+    console.log('but can be slower to look up a specific edge');
+  };
+  // intro();
+
+  // Build an undirected graph
+  const main = function () {
+    // Graph using adjacency list to store data
+    class Graph {
+      constructor() {
+        this.adjacencyList = {};
+      }
+
+      // add node to graph
+      addVertex(key) {
+        // check for duplicate
+        if (!this.adjacencyList[key]) this.adjacencyList[key] = [];
+      }
+
+      // link two vertices
+      addEdge(v1, v2) {
+        if (!this.adjacencyList[v1] || !this.adjacencyList[v2]) return;
+
+        this.adjacencyList[v1].push(v2);
+        this.adjacencyList[v2].push(v1);
+      }
+
+      // unlink two vertices
+      removeEdge(v1, v2) {
+        if (!this.adjacencyList[v1] || !this.adjacencyList[v2]) return;
+
+        this.removeHelper(v1, v2);
+        this.removeHelper(v2, v1);
+      }
+
+      removeHelper(a, b) {
+        const index = this.adjacencyList[a].indexOf(b);
+        this.adjacencyList[a].splice(index, 1);
+      }
+
+      removeVertex(vertex) {
+        if (!this.adjacencyList[vertex]) return;
+
+        // remove all edges
+        for (const city in this.adjacencyList) this.removeEdge(city, vertex);
+
+        // remove key in adjacency list
+        delete this.adjacencyList[vertex];
+      }
+    }
+
+    const g = new Graph();
+    g.addVertex('Tokyo');
+    g.addVertex('Montreal');
+    g.addVertex('London');
+    g.addVertex('Dar es Salaam');
+    g.addVertex('Sao Paulo');
+    g.addVertex('Cairo');
+    g.addVertex('Los Angeles');
+
+    g.addEdge('Tokyo', 'Montreal');
+    g.addEdge('Los Angeles', 'Dar es Salaam');
+    g.addEdge('Cairo', 'Los Angeles');
+    g.addEdge('Dar es Salaam', 'Cairo');
+    g.addEdge('Tokyo', 'Sao Paulo');
+    g.addEdge('Tokyo', 'Cairo');
+    g.addEdge('Tokyo', 'Los Angeles');
+    g.addEdge('Montreal', 'Cairo');
+    g.addEdge('London', 'Montreal');
+    g.addEdge('London', 'Sao Paulo');
+    g.addEdge('London', 'Cairo');
+    g.addEdge('London', 'Dar es Salaam');
+    g.addEdge('London', 'Los Angeles');
+    g.addEdge('London', 'Tokyo');
+
+    g.removeVertex('London');
+
+    console.table(g.adjacencyList);
+  };
+  // main();
+};
+// section26();
