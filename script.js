@@ -2919,3 +2919,139 @@ const section26 = function () {
   // main();
 };
 // section26();
+
+/**
+ * Take notes about Graph Traversal
+ */
+const section27 = function () {
+  class Graph {
+    constructor() {
+      this.adjacencyList = {};
+    }
+
+    // add node to graph
+    addVertex(key) {
+      // check for duplicate
+      if (!this.adjacencyList[key]) this.adjacencyList[key] = [];
+    }
+
+    // link two vertices
+    addEdge(v1, v2) {
+      if (!this.adjacencyList[v1] || !this.adjacencyList[v2]) return;
+
+      this.adjacencyList[v1].push(v2);
+      this.adjacencyList[v2].push(v1);
+    }
+
+    // unlink two vertices
+    removeEdge(v1, v2) {
+      if (!this.adjacencyList[v1] || !this.adjacencyList[v2]) return;
+
+      this.removeHelper(v1, v2);
+      this.removeHelper(v2, v1);
+    }
+
+    removeHelper(a, b) {
+      const index = this.adjacencyList[a].indexOf(b);
+      this.adjacencyList[a].splice(index, 1);
+    }
+
+    removeVertex(vertex) {
+      if (!this.adjacencyList[vertex]) return;
+
+      // remove all edges
+      for (const city in this.adjacencyList) this.removeEdge(city, vertex);
+
+      // remove key in adjacency list
+      delete this.adjacencyList[vertex];
+    }
+
+    // depth first traversal (recursively)
+    DFSrecursive(start) {
+      const route = [];
+      const visited = {};
+      const aList = this.adjacencyList;
+
+      const helper = function (vertex) {
+        if (!vertex) return;
+
+        // add vertex to the route
+        route.push(vertex);
+
+        // mark as visited
+        visited[vertex] = true;
+
+        // check its neighbors
+        // if neighbor was not visited -> recursive call
+        aList[vertex].forEach((neighbor) => {
+          if (!visited[neighbor]) return helper(neighbor);
+        });
+      };
+
+      helper(start);
+
+      return route;
+    }
+
+    // depth first traversal (iteratively)
+    DFSiterative(start) {
+      const stack = [start];
+      const route = [];
+      const visited = {};
+
+      while (stack.length > 0) {
+        const vertex = stack.pop();
+        if (!visited[vertex]) {
+          visited[vertex] = true;
+          route.push(vertex);
+          this.adjacencyList[vertex].forEach((neighbor) => {
+            if (!visited[neighbor]) stack.push(neighbor);
+          });
+        }
+      }
+
+      return route;
+    }
+
+    // breadth first traversal
+    BFS(start) {
+      const queue = [start];
+      const route = [];
+      const visited = {};
+
+      while (queue.length > 0) {
+        const vertex = queue.shift();
+        if (!visited[vertex]) {
+          visited[vertex] = true;
+          route.push(vertex);
+          this.adjacencyList[vertex].forEach((neighbor) => {
+            if (!visited[neighbor]) queue.push(neighbor);
+          });
+        }
+      }
+
+      return route;
+    }
+  }
+
+  const g = new Graph();
+  g.addVertex('A');
+  g.addVertex('B');
+  g.addVertex('C');
+  g.addVertex('D');
+  g.addVertex('E');
+  g.addVertex('F');
+
+  g.addEdge('A', 'B');
+  g.addEdge('A', 'C');
+  g.addEdge('B', 'D');
+  g.addEdge('C', 'E');
+  g.addEdge('D', 'E');
+  g.addEdge('D', 'F');
+  g.addEdge('E', 'F');
+
+  // console.log(g.DFSrecursive('A'));
+  // console.log(g.DFSiterative('A'));
+  console.log(g.BFS('A'));
+};
+section27();
