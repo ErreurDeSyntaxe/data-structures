@@ -3227,3 +3227,66 @@ const section28 = function () {
   console.log(wg.dijkstra('F', 'A'));
 };
 // section28();
+
+/**
+ * Take notes on Dynamic Programming
+ */
+const section29 = function () {
+  console.log('Blow my mind, please.');
+  console.log('The concept is to break down complex problems');
+  console.log('into smaller ones and store the solutions');
+  console.log('so that the solutions can be retrieved later');
+  console.log('rather than being recalculated');
+
+  // This solution runs into a highly inefficient process
+  // It recalculates Fibonacci's numbers from 1 to n
+  // EVERY TIME it needs to calculate the next number
+  // 1, 1, 2.
+  // 1, 1, 2, 3.
+  // 1, 1, 2, 3, 5.
+  // 1, 1, 2, 3, 5, 8.
+  // 1, 1, 2, 3, 5, 8, 13.
+  // 1, 1, 2, 3, 5, 8, 13, 21.
+  const fibRecursive = function (n) {
+    if (n < 1) return null;
+    if (n === 1 || n === 2) return 1;
+
+    return fibRecursive(n - 1) + fibRecursive(n - 2);
+  };
+  // n = 50 took over 60 seconds
+  // O(2^n) (actually 1.6^n)
+  console.log(fibRecursive(6));
+
+  // This solution stores the previous values and sends the array
+  // to the recursively called function
+  // If n === 100, it calculates every number on its way to 100th
+  // only once, but it reaches into the array to look up the values it needs
+  const fibMemoziation = function (n, memo = []) {
+    if (memo[n] !== undefined) return memo[n];
+    if (n <= 2) return 1;
+    const ans = fibMemoziation(n - 1, memo) + fibMemoziation(n - 2, memo);
+    memo[n] = ans;
+
+    // console.log(memo);
+    return ans;
+  };
+  // O(n)
+  console.log(fibMemoziation(6));
+
+  // Other than memoization, there is tabulation
+  // This dynamic programming approach is the one I used in section 8!!!
+  const fibonacciIterative = function (num) {
+    let fib = [1, 1];
+
+    if (num === 0) return null;
+    if (num === 1 || num === 2) return 1;
+
+    for (let i = 2; i < num; i++) {
+      fib[i] = fib[i - 2] + fib[i - 1];
+    }
+
+    return fib[num - 1];
+  };
+  console.log(fibonacciIterative(6));
+};
+// section29();
