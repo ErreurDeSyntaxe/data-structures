@@ -3290,3 +3290,175 @@ const section29 = function () {
   console.log(fibonacciIterative(6));
 };
 // section29();
+
+/**
+ * Take on the coding challenges
+ */
+const section30 = function () {
+  class Node {
+    constructor(val) {
+      this.val = val;
+      this.next = null;
+    }
+  }
+
+  class SinglyLinkedList {
+    constructor(val) {
+      this.head = null;
+      this.tail = null;
+      this.length = 0;
+    }
+
+    push(value) {
+      const node = new Node(value);
+      if (!this.head) this.head = node;
+      else this.tail.next = node;
+
+      this.tail = node;
+
+      this.length++;
+      return this;
+    }
+
+    pop() {
+      if (!this.tail) return;
+      if (this.head === this.tail) return this.tail;
+
+      let secondToLast = this.head;
+      while (true) {
+        if (secondToLast.next === this.tail) {
+          break;
+        }
+        secondToLast = secondToLast.next;
+      }
+      const tail = this.tail;
+      this.tail = secondToLast;
+
+      this.length--;
+      return tail;
+    }
+
+    get(index) {
+      if (index < 0 || index >= this.length) return null;
+
+      let node = this.head;
+      for (let i = 0; i <= index; i++) {
+        if (i === index) return node;
+        node = node.next;
+      }
+    }
+
+    set(index, value) {
+      const node = this.get(index);
+      if (!node) return false;
+
+      node.val = value;
+      return true;
+    }
+
+    insert(index, value) {
+      if (index < 0 || index > this.length) return false;
+      if (index === this.length) return !!this.push(value);
+
+      const node = new Node(value);
+      const leftNode = this.get(index - 1);
+
+      node.next = leftNode.next;
+      leftNode.next = node;
+
+      this.length++;
+      return true;
+    }
+
+    remove(index) {
+      const leftNode = this.get(index - 1);
+      if (!leftNode) return;
+
+      const node = leftNode.next;
+      const rightNode = node.next;
+
+      leftNode.next = rightNode;
+      node.next = null;
+
+      this.length--;
+      return node;
+    }
+
+    rotate(pivot) {
+      if (pivot >= this.length || pivot === 0) return;
+
+      if (pivot < 0) pivot = this.length + pivot;
+
+      for (let i = 0; i < pivot; i++) {
+        const head = this.head;
+
+        this.head = head.next;
+        head.next = null;
+
+        this.tail.next = head;
+        this.tail = head;
+      }
+    }
+  }
+
+  function countZeroes(arr) {
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] === 0) return arr.length - i;
+    }
+    return 0;
+  }
+  // console.log(countZeroes([1, 1, 1, 1, 0, 0])); // 2
+  // console.log(countZeroes([1, 0, 0, 0, 0])); // 4
+  // console.log(countZeroes([0, 0, 0])); // 3
+  // console.log(countZeroes([1, 1, 1, 1])); // 0
+
+  function sortedFrequency(arr, num) {
+    let total = 0;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] === num) total++;
+      if (arr[i] > num) break;
+    }
+    return total === 0 ? -1 : total;
+  }
+  // console.log(sortedFrequency([1, 1, 2, 2, 2, 2, 3], 1)); // 2
+  // console.log(sortedFrequency([1, 1, 2, 2, 2, 2, 3], 4)); // -1;
+
+  function findRotatedIndex(arr, num) {
+    let index = -1;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] === num) {
+        index = i;
+        break;
+      }
+    }
+    return index;
+  }
+  // console.log(findRotatedIndex([3, 4, 1, 2], 4)); // 1
+  // console.log(findRotatedIndex([6, 7, 8, 9, 1, 2, 3, 4], 12)); // -1
+
+  function buildObject(str) {
+    const obj = {};
+
+    for (let i = 0; i < str.length; i++) {
+      const char = str[i];
+      obj[char] = obj[char] ? ++obj[char] : 1;
+    }
+
+    return obj;
+  }
+
+  function constructNote(msg, letters) {
+    const objMsg = buildObject(msg);
+    const objLetters = buildObject(letters);
+
+    for (const key in objMsg) {
+      if (!objLetters[key]) return false;
+      if (objLetters[key] < objMsg[key]) return false;
+    }
+
+    return true;
+  }
+
+  constructNote('abccccc', 'def');
+};
+section30();
